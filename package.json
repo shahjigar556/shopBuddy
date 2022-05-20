@@ -1,0 +1,24 @@
+{
+  "name": "shopBuddy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahjigar556/shopBuddy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahjigar556/shopBuddy/issues"
+  },
+  "homepage": "https://github.com/shahjigar556/shopBuddy#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
