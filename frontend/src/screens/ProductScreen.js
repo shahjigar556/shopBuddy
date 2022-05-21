@@ -4,17 +4,19 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import {useState,useEffect} from 'react'
 import axios from 'axios'
+import { listProduct } from '../actions/productActions'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 
 const ProductScreen = ({ match }) => {
   const history = useHistory();
-  const [product,setProduct]=useState({});
-  const fetchProducts=async ()=>{
-    const {data}=await axios.get(`/api/products/${match.params.id}`)
-    setProduct(data);
-  }
+  const dispatch = useDispatch()
+  const {product,loading,error} = useSelector((state) => state.product)
+  console.log(product)
   useEffect(()=>{
-    fetchProducts();
+     dispatch(listProduct(match.params.id))
   },[])
 
   return (
@@ -24,6 +26,7 @@ const ProductScreen = ({ match }) => {
             Go Back
         </Button>
     </div>
+    {loading?<Loader/>:error?<Message>{error}</Message>:
       <Row>
         <Col md={6}>
           <Image src={product.image} alt={product.name} fluid />
@@ -76,6 +79,7 @@ const ProductScreen = ({ match }) => {
           </Card>
         </Col>
       </Row>
+    }
     </>
   )
 }
