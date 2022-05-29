@@ -7,7 +7,6 @@ const User = require("../models/UserModel")
 const authUser=async (req,res)=>{
     try {
         const {email,password}=req.body;
-        console.log('here-------')
         const user=await User.findOne({email})
         if(user && await user.matchPassword(user.password)){
             res.json({
@@ -22,6 +21,38 @@ const authUser=async (req,res)=>{
     } catch (error) {
         res.status(401)
     }
+}
+
+
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
+const registerUser = async (req, res) => {
+  const { name, email, password } = req.body
+
+  const userExists = await User.findOne({ email })
+
+  if (userExists) {
+    res.status(400).json({msg:'user already exits'})
+  }
+
+  const user = await User({
+    name,
+    email,
+    password,
+  })
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    })
+  } else {
+    res.status(400)
+  }
 }
 
 // @desc    Get user profile
@@ -39,8 +70,7 @@ const getUserprofile=async (req, res) => {
       })
     } else {
       res.status(404).json({msg:"User not found"})
-      // throw new Error('User not found')
     }
   }
 
-module.exports={authUser,getUserprofile}
+module.exports={authUser,getUserprofile,registerUser}

@@ -5,11 +5,13 @@ const colors=require('colors')
 const dotenv=require('dotenv')
 const productRoutes=require('./routes/productRoutes')
 const userRoutes=require('./routes/userRoutes')
+var cors = require('cors')
 
 dotenv.config()
 connectDB()
 
 const app=express();
+app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
